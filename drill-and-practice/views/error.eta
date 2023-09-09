@@ -1,0 +1,6 @@
+<% layout("./layouts/layout.eta") %>
+
+<h1>Error <span class="badge bg-danger">404</span></h1>
+<h2>Page not found</h2>
+
+<a href="/" class="btn btn-primary">Go to Main Page</a></button>

@@ -1,0 +1,74 @@
+<% layout("./layouts/layout.eta") %>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item"><a href="/topics">Topics</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= it.topic.name %></li>
+  </ol>
+</nav>
+
+<h1 class="display-5"><span class="badge bg-primary">TOPIC</span>  <%= it.topic.name %></h1>
+<p>In this page are listed all created questions for the topic. New ones can be added using the form on the right.</p>
+
+<hr>
+
+<div class="container text-start">
+	<div class="row">
+    <div class="col">
+      <h3>Created Questions</h3>
+      <p>All created questions for the topic. The symbol next to the topic indicates whether the question is valid. Question becomes valid when it has exactly one correct answer. Only valid questions are available in the quiz.</p>
+      <div class="container-fluid">
+        
+        <% if (it.questions && it.questions.length > 0) { %>
+          <% it.questions.forEach(question => { %>
+            <ul>
+            <% if (question.valid) { %>
+              <h4><li><span class="badge bg-success">&#10003;</span> <a href="/topics/<%= question.topic_id %>/questions/<%= question.id %>"><%= question.question_text %></a></li></h4>
+            <% } else { %>
+              <h4><li><span class="badge bg-secondary">&#10005;</span> <a href="/topics/<%= question.topic_id %>/questions/<%= question.id %>"><%= question.question_text %></a></li></h4>
+            <% } %>
+
+              </ul>
+            
+          <% }); %>
+
+        <% } else { %>
+
+          <p>No questions created.</p>
+
+        <% } %>
+      </div>
+    </div>
+    <div class="col-5">
+			<h3>Add New Question</h3>
+      <p>Add a new question to the topic using the field below.</p>
+      <form action="/topics/<%= it.topic.id %>/questions" method="POST">
+        <div class="row g-3 align-items-center">
+          <div class="col-10">
+            <input type="textarea" name="question_text" placeholder="Question" id="inputTopic" class="form-control" value="<%= it.question_text ? it.question_text : "" %>">
+          </div>
+          <div class="col-2">
+            <button type="submit" id="add" class="btn btn-primary">Add</button>
+          </div>
+        </div>
+      </form>
+      <% if (it.validationErrors) { %>
+      <div class="alert alert-danger my-3" role="alert">
+        <ul>
+          <% Object.keys(it.validationErrors).forEach((attribute) => { %>
+            <% Object.values(it.validationErrors[attribute]).forEach((err) => { %>
+              <li><%= err %></li>
+            <% }); %>
+          <% }); %>
+        </ul>
+      </div>
+      <% } %>
+    </div>
+	</div>
+</div>
+
+
+
+
+

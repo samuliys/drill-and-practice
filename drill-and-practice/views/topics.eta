@@ -1,0 +1,74 @@
+<% layout("./layouts/layout.eta") %>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Topics</li>
+  </ol>
+</nav>
+
+<h1 class="display-5">Topics</h1>
+<p>Below are listed all created topics. Click on a topic to add new questions.</p>
+
+<hr>
+
+<div class="container text-start">
+	<div class="row">
+
+    <div class="col">
+      <h3>Created Topics</h3>
+      <p>Available topics. Number next to topic indicates how many questions have been created.</p>
+        <ul>
+        <% if (it.topics && it.topics.length > 0) { %>
+          <% it.topics.forEach(topic => { %>
+
+            <% if (it.user.admin) { %>
+              <form action="/topics/<%= topic.id %>/delete" method="POST">
+                <h4><li><button type="submit" id="delete" class="btn btn-danger">Delete</button> <span class="badge bg-secondary"><%= topic.questions %></span> <a href="/topics/<%= topic.id %>"> <%= topic.name %></a></li></h4>
+              </form>
+            <% } else { %>
+              <h4><li><span class="badge bg-secondary"><%= topic.questions %></span> <a href="/topics/<%= topic.id %>"> <%= topic.name %></a></li></h4>
+            <% } %>
+
+          <% }); %>
+        </ul>
+        <% } else { %>
+
+          <p>No topics created.</p>
+
+        <% } %>
+    </div>
+    <% if (it.user.admin) { %>
+    <div class="col-5">
+			<h3>Add New Topic</h3>
+			<p>Add a new topic byt typing its name to the field below. Topic names must be unique</p>
+
+      <form action="/topics" method="POST">
+        <div class="row g-3 align-items-center">
+          <div class="col-10">
+            <input type="text" name="name" id="inputTopic" class="form-control" placeholder="Topic" value="<%= it.name ? it.name : "" %>">
+          </div>
+          <div class="col-2">
+            <button type="submit" id="add" class="btn btn-primary">Add</button>
+          </div>
+        </div>
+      </form>
+      <% if (it.validationErrors) { %>
+      <div class="alert alert-danger my-3" role="alert">
+        <ul>
+          <% Object.keys(it.validationErrors).forEach((attribute) => { %>
+            <% Object.values(it.validationErrors[attribute]).forEach((err) => { %>
+              <li><%= err %></li>
+            <% }); %>
+          <% }); %>
+        </ul>
+      </div>
+      <% } %>
+    </div>
+<% } %>
+	</div>
+</div>
+
+
+
+

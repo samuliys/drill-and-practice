@@ -1,0 +1,34 @@
+<% layout("./layouts/layout.eta") %>
+
+<main class="form-signin w-100 m-auto d-flex text-center justify-content-center">
+  <form method="POST" action="/auth/register" class="w-30 my-4">
+    <h1 class="display-6">Drill and Practice</h1>
+    
+    <h1 class="h3 mb-3 fw-normal">Register</h1>
+
+    <% if (it.validationErrors) { %>
+    <div class="alert alert-danger text-start" role="alert">
+      <ul>
+        <% Object.keys(it.validationErrors).forEach((attribute) => { %>
+          <% Object.values(it.validationErrors[attribute]).forEach((err) => { %>
+            <li><%= err %></li>
+          <% }); %>
+        <% }); %>
+      </ul>
+    </div>
+    <% } %>
+
+    <div class="form-floating my-1">
+      <input type="email" name="email" class="form-control" id="floatingInput" placeholder="Email" value="<%= it.email ? it.email : "" %>" required>
+      <label for="floatingInput">Email address</label>
+    </div>
+    <div class="form-floating my-2">
+      <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password" required>
+      <label for="floatingPassword">Password</label>
+    </div>
+
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
+
+    <h6 class="my-4"><a href="/auth/login" class="btn btn-outline-primary">Already a user? Sign in</a></h6>
+  </form>  
+</main>

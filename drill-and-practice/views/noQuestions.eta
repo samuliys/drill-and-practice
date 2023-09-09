@@ -1,0 +1,16 @@
+<% layout("./layouts/layout.eta") %>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item"><a href="/quiz">Quiz</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= it.topic.name %></li>
+  </ol>
+</nav>
+
+<h1 class="display-5"><span class="badge bg-primary">Quiz</span> <%= it.topic.name %></h1>
+<hr>
+
+<h1>This topic has no questions</h1>
+<a class="btn btn-secondary btn-lg my-3" href="/quiz">Back to Topic Selection</a>
+<a class="btn btn-primary btn-lg my-3" href="/topics/<%= it.topic.id %>">Create a Question</a>

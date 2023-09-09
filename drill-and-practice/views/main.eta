@@ -1,0 +1,71 @@
+<% layout("./layouts/layout.eta") %>
+
+<h1 class="display-4">Drill and Practice</h1>
+
+    <p>
+      Welcome to Drill and Practice!
+      This application provides a list of topics and allows creating multiple-choice questions into those topics.
+      These questions can then be answered by self and others. Many features require an account, which can be done using the button below.<br>
+      In addition, the application also provides an API for retrieving and answering random questions.
+    </p>
+
+<hr>
+
+<div class="container text-start">
+  <div class="row">
+    <div class="col">
+    <% if (it.user) { %>
+      <h3>Topics</h3>
+      <p>Browse topics and create new questions to topics.</p>
+      
+      <a class="btn btn-primary" href="/topics" role="button">Browse Topics</a>
+    <% } else { %>
+      <h3>Register</h3>
+      <p>Adding questions, answer options and taking the quiz requires an account.</p>
+      
+      <a class="btn btn-primary" href="/auth/register" role="button">Create Account</a>
+    <% } %>
+      
+    </div>
+    <div class="col">
+    <% if (it.user) { %>
+      <h3>Quiz</h3>
+      <p>Select a quiz topic and answer questions.</p>
+      
+      <a class="btn btn-primary" href="/quiz" role="button">Take a Quiz</a>
+    <% } else { %>
+      <h3>Login</h3>
+      <p>Already have an account?<br> Sign in with the button below.</p>
+      <a class="btn btn-primary" href="/auth/login" role="button">Sign in</a>
+    <% } %>
+
+    </div>
+    <div class="col">
+      <h3>Statistics</h3>
+      <table class="table table-striped table-hover caption-top">
+        <caption>Basic statistics for the application</caption>
+        <thead>
+          <tr>
+            <th scope="col">Statistic</th>
+            <th scope="col">Total Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Topics</td>
+            <td><%= it.topics %></td>
+          </tr>
+          <tr>
+            <td>Questions</td>
+            <td><%= it.questions %></td>
+          </tr>
+          <tr>
+            <td>Answers</td>
+            <td><%= it.answers %></td>
+          </tr>
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+</div>

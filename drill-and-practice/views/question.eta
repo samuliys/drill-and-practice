@@ -1,0 +1,103 @@
+<% layout("./layouts/layout.eta") %>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item"><a href="/topics">Topics</a></li>
+    <li class="breadcrumb-item"><a href="/topics/<%= it.topic.id %>"><%= it.topic.name %></a></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= it.question.question_text %></li>
+  </ol>
+</nav>
+
+<div class="container text-start">
+  <div class="row">
+    <div class="col-10">
+      <h1 class="display-5"><span class="badge bg-primary">QUESTION</span>  <%= it.question.question_text %></h1>
+      <p>This page allows creating new answer options. When a question has no answer options, it can be deleted using the button on the right.</p>
+    </div>
+    <div class="col mt-4">
+      <% if (!(it.answers && it.answers.length > 0)) { %>
+        <form action="/topics/<%= it.topic.id %>/questions/<%= it.question.id %>/delete" method="POST">
+          <button type="submit" class="btn btn-danger btn-lg">Delete Question</button>
+        </form>
+      <% } else { %>
+        <button type="submit" class="btn btn-danger btn-lg" disabled>Delete Question</button>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="container text-start">
+	<div class="row">
+
+    <div class="col">
+      <h3>Answer Options</h3>
+      <p>Available answer options. Correct answer is indicated with a checkmark. Answer option can be deleted using the 'Delete' button.</p>
+      <div class="container-fluid">
+        
+        <% if (it.answers && it.answers.length > 0) { %>
+
+          <ul>
+          <% it.answers.forEach(answer => { %>
+            <div class="grid">
+              <form action="/topics/<%= it.topic.id %>/questions/<%= it.question.id %>/options/<%= answer.id %>/delete" method="POST">
+            <% if (answer.is_correct) { %>
+              <h4><li><button type="submit" class="btn btn-danger">Delete</button> <span class="badge bg-success">&#10003;</span> <%= answer.option_text %></li></h4>
+            <% } else { %>
+              <h4><li><button type="submit" class="btn btn-danger">Delete</button> <span class="badge bg-secondary">&#10005;</span> <%= answer.option_text %></li></h4>
+            <% } %>
+              </form>
+            
+            </div>
+          <% }); %>
+          </ul>
+
+        <% } else { %>
+
+        <p>No answer options created.</p>
+
+        <% } %>
+      </div>
+    </div>
+    <div class="col-5">
+			<h3>Add Answer Option</h3>
+      <p>Add new answer option to the question using the field below. All options must be unique and each question must have exactly one correct option.</p>
+
+      <form action="/topics/<%= it.topic.id %>/questions/<%= it.question.id %>/options" method="POST">
+      <input class="form-control" type="textarea" name="option_text" placeholder="Answer" value="<%= it.option_text ? it.option_text : "" %>" require>
+      <% if (it.has_correct) { %>
+        <div class="form-check form-switch my-3">
+          <input class="form-check-input" name="is_correct" type="checkbox" value="" id="incorrect" disabled>
+          <label class="form-check-label" for="incorrect">
+            Correct Answer (Can have only one)
+          </label>
+        </div>
+      <% } else { %>
+        <div class="form-check form-switch my-3">
+          <input class="form-check-input" name="is_correct" type="checkbox" id="correct">
+          <label class="form-check-label" for="correct">
+            Correct Answer
+          </label>
+        </div>
+      <% } %>
+
+        <button class="btn btn-primary" id="add" type="submit">Add Option</button>
+      </form>
+      
+      <% if (it.validationErrors) { %>
+      <div class="alert alert-danger my-3" role="alert">
+        <ul>
+          <% Object.keys(it.validationErrors).forEach((attribute) => { %>
+            <% Object.values(it.validationErrors[attribute]).forEach((err) => { %>
+              <li><%= err %></li>
+            <% }); %>
+          <% }); %>
+        </ul>
+      </div>
+      <% } %>
+    </div>
+	</div>
+</div>
+

@@ -1,0 +1,43 @@
+<% layout("./layouts/layout.eta") %>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item"><a href="/quiz">Quiz</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= it.topic.name %></li>
+  </ol>
+</nav>
+
+<h1 class="display-5"><span class="badge bg-primary">QUIZ</span> <%= it.topic.name %></h1>
+<p>In this page you can add new topics</p>
+
+<hr>
+
+<div class="container text-start">
+	<div class="row">
+
+    <div class="col">
+      <h3>Question</h3>
+      <h1><strong><%= it.question.question_text %></strong></h1>
+
+      <a class="btn btn-outline-secondary my-5" href="/quiz">Back to Topic Selection</a>
+      <a class="btn btn-outline-primary my-5" href="/quiz/<%= it.topic.id %>">Skip Question</a>
+    </div>
+    <div class="col-5">
+			<h3>Answer Options</h3>
+      <p>Choose option</p>
+      <% if (it.options && it.options.length > 0) { %>
+
+        <% it.options.forEach(option => { %>          
+          
+          <form action="/quiz/<%= it.topic.id %>/questions/<%= it.question.id %>/options/<%= option.id %>" method="POST">
+            <h4><button type="submit" id="choose" class="btn btn-primary my-3">Choose</button> <%= option.option_text %></h4>
+          </form>
+          
+        <% }); %>
+
+      <% } %>
+
+    </div>
+	</div>
+</div>

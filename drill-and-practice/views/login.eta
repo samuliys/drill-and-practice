@@ -1,0 +1,28 @@
+<% layout("./layouts/layout.eta") %>
+
+<main class="form-signin w-100 m-auto d-flex text-center justify-content-center">
+  <form method="POST" action="/auth/login" class="w-30 my-4">
+    <h1 class="display-6">Drill and Practice</h1>
+    
+    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+
+    <% if (it.error) { %>
+    <div class="alert alert-danger text-start" role="alert">
+      <%= it.error %>
+    </div>
+    <% } %>
+
+    <div class="form-floating my-1">
+      <input type="email" name="email" class="form-control" id="floatingInput" placeholder="Email" value="<%= it.email ? it.email : "" %>">
+      <label for="floatingInput">Email address</label>
+    </div>
+    <div class="form-floating my-2">
+      <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
+      <label for="floatingPassword">Password</label>
+    </div>
+
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+
+    <h6 class="my-4"><a href="/auth/register" class="btn btn-outline-primary">New user? Register</a></h6>
+  </form>  
+</main>

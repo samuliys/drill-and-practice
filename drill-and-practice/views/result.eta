@@ -1,0 +1,33 @@
+<% layout("./layouts/layout.eta") %>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item"><a href="/quiz">Quiz</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= it.topic.name %></li>
+  </ol>
+</nav>
+
+<h1 class="display-5"><span class="badge bg-primary">QUIZ</span> <%= it.topic.name %></h1>
+<hr>
+
+<div class="container text-start">
+	<div class="row">
+
+    <div class="col">
+      <% if (!(it.correct) && it.answer) { %>
+        <h1 class="display-1"><span class="badge bg-danger">Incorrect!</span></h1>
+        <h3>The correct answer was:</h3>
+        <h2><strong><%= it.answer.option_text %></strong></h2>
+      <% } else { %>
+        <h1 class="display-1"><span class="badge bg-success">Correct!</span></h1>
+      <% } %>
+    </div>
+    <div class="col-5">
+			<div>
+        <a class="btn btn-primary btn-lg my-5" href="/quiz/<%= it.topic.id %>">Next question</a>
+        <a class="btn btn-outline-secondary btn-lg my-5" href="/quiz">Back to Topic Selection</a>
+      </div>
+    </div>
+	</div>
+</div>
